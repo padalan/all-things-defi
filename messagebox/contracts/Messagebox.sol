@@ -7,9 +7,9 @@ contract Messagebox {
     string public message;
     string private note;
     // Declare all of the storage (or instance) variables (called message) and their types that will be used in the contract.
-    // Public - Ayone can call this function.
-    // Private - Only this contract can call this function.
-
+    // public - Ayone can call this function.
+    // private - Only this contract can call this function.
+    // note is not required. we are using it to test private.
     // Define functions that will be members of this contract below.
 
 
@@ -17,7 +17,7 @@ contract Messagebox {
     // function Messagebox(string initialMessage) public {
         // Constructor Function: Inbox function has the same name as the Contract.
         // Constructor function will automatically be called when the contract is called.
-        //message = initialMessage;
+        // message = initialMessage;
       // }
     // Instead use below
     constructor(string initialMessage) public {

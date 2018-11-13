@@ -1,4 +1,4 @@
-// require('./contracts/Messagebox.sol'); ''bad!!!
+// require('./contracts/Messagebox.sol'); //bad!!!
 // It would treat Messagebox.sol as javascript instead of solidity.
 // Hence we need to read the content from the filesystem.
 

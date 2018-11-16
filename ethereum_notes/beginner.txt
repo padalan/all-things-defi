@@ -1,40 +1,40 @@
-* Ethereum maintains bank accounts for it's customers, humans and Code (contracts).
-Increment the balance of the recipient account, and decrement the balance of the originating account.
+* Ethereum maintains bank accounts for its customers, both humans, and Code(contracts). Increment the balance of the recipient account, and decrement the balance of the originating account.
 
-* List of accounts and their balaces is known as state. Every transaction thus can be seen as a state transition.
+* List of accounts and their balances is known as the state. Every transaction thus can be seen as a state transition.
 
 * Imagine contracts as lawyers who do paperwork for you.
 
 * Amount of work taken to execute the contract is denoted in a quantity called Gas.
 
-* Transaction represents a single session with the EVM. 
+* Transaction represents a single session with the EVM.
 
-* Gas             ~   Fuel/Petrol/Oil
+* Gas analogies.
+  Gas             ~   Fuel/Petrol/Oil
   Smart contract  ~   Engine
-  Gas needed      ~   Mileage (operations dependent on engine)
-  Gas price/Fee   ~   Oil price based on economy
-  Gas limit       ~   Capacity of fuel tank. Max amount of fuel that can be used.
+  Gas needed      ~   Mileage (operations dependent on the engine)
+  Gas price/Fee   ~   Oil price based on the economy
+  Gas limit       ~   Capacity of the fuel tank. Max amount of fuel that can be used.
   startGas        ~   There is enough fuel in the tank to reach the destination
-  startGas in Ethereum Whte Paper. gasLimit in Ethereum Yellow Paper.
+  startGas in Ethereum White Paper. gasLimit in Ethereum Yellow Paper.
   remainingGas    ~   The fuel remaining after (Each operation or) reaching the destination.
-  Block Gas Limit =   4,712,388 ~ 224 tx that each have a startGas of 21000.
+  Block Gas Limit =   4,712,388 ~ 224 tx that each has a startGas of 21000.
 
-* Storage costs Ether. If there is a step that cears an entry in the storage, the fee for executing that operation is waived, and a refund is given for freeing up storage space.
+* Storage costs Ether. If there is a step that clears an entry in the storage, the fee for executing that operation is waived, and a refund is given for freeing up storage space.
 
-* Miners think about profit. If there is one transaction with start gas of 5 million, and another with 100 transactions with startGas of 50,000, miners are likely to prioritiz a set of small transactions over a single transaction with very high startGas. This can lead to delay of execution of high startGas transaction.
+* Miners think about profit. If there is one transaction with start gas of 5 million, and another with 100 transactions with startGas of 50,000, miners are likely to prioritize a set of small transactions over a single transaction with very high startGas. This can lead to a delay of execution of a high startGas transaction.
  
-* The transaction that runs out of gas is reverted, but still included in a block an the associated fee is paid to the miner.
+* The transaction that runs out of gas is reverted, but still included in a block and the associated fee is paid to the miner.
 
 * Originator must pay for all the fuel. Ether placed in escrow.
 * Out of gas exception.
 
 * Each account has a state associated with it and a 20-byte address.
 
-* Unliked EOA conract accounts cannot initiate new transactions. Instead, contract accounts can only fire transactions inrespose to other transactions they have recieved from EOA or other contract account. Internal transacion is transaction accross contract account.
+* Unliked EOA contract accounts cannot initiate new transactions. Instead, contract accounts can only fire transactions in response to other transactions they have received from EOA or another contract account. An internal transaction is a transaction across contract accounts.
 
-* codeHash: For contract accounts, codeHash is the code that gets hashed. For EOA it's the has of the empty string.
+* codeHash: For contract accounts, codeHash is the code that gets hashed. For EOA it's the hash of an empty string.
 
-* Begining from the root node of the tree, the key should tell you which child node to follow to get to the correspoding value, which is stored in the leaf nodes.
+* Begining from the root node of the tree, the key should tell you which child node to follow to get to the corresponding value, which is stored in the leaf nodes.
 
 * In ethereum, the key-value mapping for the state tree is between address and their associated accounts, including the balance, nonce, codeHash, storageRoot. storageRoot is itself a tree.
 
@@ -43,41 +43,89 @@ Increment the balance of the recipient account, and decrement the balance of the
   2. Transaction trie
   3. Receipts trie
 
-* light nodes have access to block headers, which contain hashes of the three ries. They can sill easily generate and recieve verifiable answers about transactions, events, balances, etc.
+* light nodes have access to block headers, which contain hashes of the three tries. They can still easily generate and receive verifiable answers about transactions, events, balances, etc.
 
-* The benifit of Merkle Patricia tree is that the root node of this structure is cryptographically dependent on the data stored in the tree, and so that hash of the root node can be used as a secure identity for this data. Since the block header includes the root hash of the state, transaction, and receipts trees, any node can balidate a small part of state of Ethereum without needing to store the entire state, which can be potentiaally unbounded in size.
+* The benefit of Merkle Patricia tree is that the root node of this structure is cryptographically dependent on the data stored in the tree, and so that hash of the root node can be used as a secure identity for this data. Since the block header includes the root hash of the state, transaction, and receipts trees, any node can validate a small part of the state of Ethereum without needing to store the entire state, which can be potentially unbounded in size.
 
-* Simply, transaction is a cryptographically signed piece of instruction that is generated by an externally owned account, serialized, and then submitted to the blockchain.
+* Simply, a transaction is a cryptographically signed piece of instruction that is generated by an externally owned account, serialized, and then submitted to the blockchain.
 
-* All transactions contain following feilds:
-  - nonce : a count of the number of transacions sent by the sender.
-  - gasPrice: the number of Wei that the seder is willing to pay per unit of gas required to execute the transaction.
-  - gasLimit: Maximium upfront amount paid by the sender to execute the transaction.
+* All transactions contain following fields:
+  - nonce: a count of the number of transactions sent by the sender.
+  - gasPrice: the number of Wei that the sender is willing to pay per unit of gas required to execute the transaction.
+  - gasLimit: the Maximum upfront amount paid by the sender to execute the transaction.
   - to: the address of the recipient. During contract creation, the contract address does not exist yet. Hence an empty value is used.
-  - value: the amount of wei to be transferred from the sender to the recipient. In contract-creation transaction, this value serves as the starting balance within the newly created contract account.
+  - value: the amount of wei to be transferred from the sender to the recipient. In the contract-creation transaction, this value serves as the starting balance within the newly created contract account.
   - v,r,s: used to generate the signature that identifies the sender of the transaction.
-  - init: Inly exits for contract-creation transaction.When init is run, it returns the body of the account code, which is the piece of code that is permanetly associated with the contract account.
-  - date: Optional input data, only exists for message calls. Example, for domain creation smart contract, a cal to the contract might expect input fields such as the domain and IP address.
+  - init: Only exists for a contract-creation transaction. When init is run, it returns the body of the account code, which is the piece of code that is permanently associated with the contract account.
+  - date: Optional input data, only exists for message calls. Example, for the domain creation smart contract, a call to the contract might expect input fields such as the domain and IP address.
 
-* Ommer block = uncle block = Orphaned blocks. Parent's parent and uncle's parent are the same.
+* Ommer block = uncle block = Orphaned blocks. Parent's parent and uncle's parent are equal.
 
-A bock header is a portion of the block consisting of:
+* A block header is a portion of the block consisting of:
 
-- parentHash: the hash of the parent block's header
-- ommersHash: a hash of the current block's list of uncles
-- benificiary: the account address that recieves the mining fees.
-- *stateRoot: the hash of the root node of he state trie
-- *tractionRoot: the hash of the root node of the trie that contains all the transactions
-- *receiptsRoot: the hash of the root node of the trie that contains the receipts of all the transactions
-- logsBloom: a Bloom  filter (data structure) that consists of log information
-- difficulty: the difficulty level of this block
-- number: the count of the current block
-- gasLimit: the current gas limit per block
-- gasUsed: the sum of total gas used by transactios in this block
-- timestamp: the unix timestamp of this block's inception
-- extraData: extr data related to this block
-- mixHash: the hash that, when combined with the nonce, proves that block has carried out enough computation
-- nonce: the hash that, when comnined with mixHash, proves that this block has carried ou enough computation
+  - parentHash: the hash of the parent block's header
+  - ommersHash: a hash of the current block's list of uncles
+  - beneficiary: the account address that receives the mining fees.
+  - *stateRoot: the hash of the root node of the state trie
+  - *tractionRoot: the hash of the root node of the trie that contains all the transactions
+  - *receiptsRoot: the hash of the root node of the trie that contains the receipts of all the transactions
+  - logsBloom: a Bloom  filter (data structure) that consists of log information
+  - difficulty: the difficulty level of this block
+  - number: the count of the current block
+  - gasLimit: the current gas limit per block
+  - gasUsed: the sum of total gas used by transactions in this block
+  - timestamp: the Unix timestamp of this block's inception
+  - extraData: extra data related to this block
+  - mixHash: the hash that, when combined with the nonce, proves that this block has carried out enough computation
+  - nonce: the hash that, when combined with mixHash, proves that this block has carried out enough computation
 
+* Intrinsic gas include:
+  - A predefined cost of 21,000 gas
+  - A storage fee of 4 gas for every byte of data or code that equals zero. 68 gas for a non-zero byte of data or code
+  - Additional 32,000 gas for contract creation
+
+* Contract creation: We first declare the address of the new account using a special formula.
+* The code has the ability to read-write to its own internal storage (A database mapping 32-byte keys to 32-byte values), read the storage of the received message, and send messages to other contracts, trigger their execution in turn.
+* Contracts interact with each other through an activity that is alternately called either "Calling" or "sending messages". A message is an object containing some quantity of ether, a byte-array of data of any size, the address of a sender and a recipient.
+
+
+* Initialize the new contract account by:
+  - Setting the nonce to zero
+  - If the sender sent some Ether as a value with the transaction, set the account balance to that value
+  - Deducting the value added to this new account from the sender's balance
+  - setting the storage as empty
+  - Setting the contract's codeHash as the hash of an empty string.
+
+* A message call execution does not include any init code since no new accounts are created.
+* Message call contains input data if the data was sent by the transaction sender.
+* Message call contains output data, which is used if a subsequent execution needs this data.
+
+* The size of each stack in the EVM is 256-bit, and the stack has a maximum size of 1024.
+* EVM has a memory where items are stored as a word addressed byte arrays.
+* EVM also has storage. Unlike memory, storage is non-volatile and is maintained as part of the system state.
+* EVM stores contract code separately in virtual ROM.
+
+* Pre-check for execution of a particular computation:
+  - System state
+  - remainingGas
+  - Address of the account that owns the code that is executing
+  - Address of the sender of the transaction that originated this execution
+  - Address of the account that caused the code to execute.
+  - gasPrice
+  - Input Data
+  - Value (in Wei) passed to this account
+  - Machine code to be executed
+  - Block header of the current block
+  - The depth of the present message call or contract creation stack.
+
+* The EVM executes the transaction recursively, computing the system state and the machine state for each loop.
+
+--------------------------------------------
+* When to use Blockchain:
+  - Is the system defining digital relationships? Yes. Then, Account management offered by blockchain maybe appropriate.
+  - Should data be dynamic and auditable? Yes. Blockchains record and store data updates.
+  - Should data be managed by a Central Authority? No. Decentralization offered by blockchains can guarantee an immutable transaction history. But if Privacy is paramount, the public nature of transactions on the blockchain is too transparent.
+  - Is the speed of the network important? No. blockchain provides consistency, speed not yet.
+ 
 
 

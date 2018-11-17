@@ -46,3 +46,4 @@ node deploy.js
 * [ganache-cli](https://truffleframework.com/ganache) - Local test Blockchain
 * [truffle](https://truffleframework.com/) - Suite with tools to test an deploy Smart contracts
 * [Web3](https://github.com/ethereum/wiki/wiki/JavaScript-API) - JavaScript app API
+* [Infura](https://infura.io/) - An IPFS and Ethereum infrastructure cluster.

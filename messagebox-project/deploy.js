@@ -3,7 +3,7 @@ const Web3 = require('web3');
 const { interface, bytecode } = require('./compile');
 
 const provider = new HDWalletProvider(
-  //edited the mnemonic
+  // edited the mnemonic
   // Hint: Is motorcycle rider an athelete or a warrior? Maybe a bug?
   'eye warrior stumble resource bulb athlete gather food end rug remind tide',
   'https://rinkeby.infura.io/v3/34e7998b9dce4f5491c31485ab6c8c4b'

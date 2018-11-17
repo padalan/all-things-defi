@@ -6,36 +6,19 @@ contract Messagebox {
 
     string public message;
     string private note;
-    // Declare all of the storage (or instance) variables (called message) and their types that will be used in the contract.
-    // public - Ayone can call this function.
+    // Declare all of the storage (or instance) variables and their types that will be used in the contract.
+    // public - Anyone can call this function.
     // private - Only this contract can call this function.
-    // note is not required. we are using it to test private.
-    // Define functions that will be members of this contract below.
+    // 'note' variable is not required. we are using it to only test private.
 
-
-    // DEPRICATED:
-    // function Messagebox(string initialMessage) public {
-        // Constructor Function: Inbox function has the same name as the Contract.
-        // Constructor function will automatically be called when the contract is called.
-        // message = initialMessage;
-      // }
-    // Instead use below
+    // Define functions that will be the members of this contract.
     constructor(string initialMessage) public {
       message = initialMessage;
     }
 
-
+    // Set a new message to the string to message
     function setMessage(string newMessage) public {
-        note = newMessage;
+        note = newMessage; // Again, using 'note' only to test private.
         message = note;
     }
-
-    //function getMessage() public view returns (string) {
-        //getMessage() - Name of the function
-        //public view  - Function type declaration
-        //Eg. of common function types: public, private, view, constant, pure, payable
-        //returns (string) -
-
-    //    return message;
-    //}
 }

@@ -1,7 +1,7 @@
 # MessageBox Ethereum Smart Contract
 
 A simple MessageBox smart contract project where we can set a message and display the message.
-The smart contract is depoyed on Rinkeby testnet. Contract can be found on Etherscan at: https://rinkeby.etherscan.io/address/0x907f74Eb589bBD376dcF69195f47825f288aE0B7
+The smart contract is deployed on Rinkeby testnet. Contract can be found on Etherscan at: https://rinkeby.etherscan.io/address/0x907f74Eb589bBD376dcF69195f47825f288aE0B7
 
 ## Getting Started
 

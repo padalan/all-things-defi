@@ -127,5 +127,123 @@
   - Should data be managed by a Central Authority? No. Decentralization offered by blockchains can guarantee an immutable transaction history. But if Privacy is paramount, the public nature of transactions on the blockchain is too transparent.
   - Is the speed of the network important? No. blockchain provides consistency, speed not yet.
  
+* Developer tools for dApp Development:
+  - Parity: Ethereum client written in a low-level language Rust. Remember ParityWallet Hack?
+  - Truffle: Development framework to create, compile, deploy, and test dApps.
+  - EthPM: Package manager for Ethereum.
+  - Oyente: Static analysis tool for snart contracts
+  - Remix: in-browser editor and compiler.
+  - Geth: Allows you to create and manage accounts via Javascript console. Public/private blockchains
+  - Ganache: local private deveopment blockchain with prefunded accounts.
+  - Metamask: Browser Wallet for Public/private blockchains.
+  - SolC: cli solidity compiler
+  - Mist: a Web3-enabled browser with wallet and contract development
+  - web3.js: collection of JS libraries. Account management, Deploy, interact with deployed contracts.
+  - IPFS: Iterplanetary file sharing system, and swarm are decentralized file storage solutions for web 3.0
 
+* Geth:
+  - Genesis.json file:
+
+    {
+      "config": {
+          "chainId": 4839,  // Identifies the blockchain. Mainnet=1, Ropsten=3, Rinkeby=4, kovan=42
+          "homesteadBlock": 0,
+          "eip155Block": 0, // HomesteadBlock, eipblock155/8Block indicate to geth in which blocks the Protocol changes are introduced.
+          "eip158Block": 0  
+      },
+    "alloc"       : {}, // Allows us to create addresses and fill the accounts with ether upon initializing the blockchain     
+    "difficulty"  : "0x0400", // Indicates how difficult it will be to discover a valid has of the block.
+    "extraData"   : "", // Optional 32 byte value where we can add extra data.
+    "gasLimit"    : "0x7A1200", // Maxlimit of gas expenditure per block.
+    "parentHash"  : "0x0000000000000000000000000000000000000000000000000000000000000000", // The keccak256 has of the parent block's header.
+    "timestamp"   : "0x00"  // output of Unix time() function at the block's creation. 
+   }
+  
+  - geth --datadir=./ethereum-test init genesis.json
+  - geth --datadir=./ethereum-test  --networkid 12 console
+  - geth console:
+    > personal.newAccount()
+    > eth.accounts
+    > eth.getbalance(eth.accounts[0])
+    > web3.fromWei(eth.getBalance(eth.accounts[0]), 'ether')
+
+    > miner.start()
+    > miner.stop()
+  
+    > eth.sendTransaction()
+
+      {
+        from: String - The address of the sending account. web3.eth.defaultAccount by default
+        to: Strong - destination of the message. Left undefined for a contract-creation transaction.
+        value: Number|string|BigNumber - The value transferred for the transaction in Wei. Also the endowment if it's a contract-creation transaction.
+        gas: Number|string|BigNumber - The amount of gas to be used for this transaction
+        gasPrice: Number|string|BigNumber - The price of this transaction in wei, defaults to the mean network gas price
+        data: String - Either a big string containing the associated data of the message, or in case of a contract creation transaction, the initializaion code. 
+        none: Number
+      }
+    > personal.unlockAccount(eth.accounts[0])
+    > eth.sendTransaction({ to: eth.accounts[1], from eth.accounts[0], value: 100 })
+    > eth.syncing
+      {
+        currentBlock: 14199,
+        highestBlock: 3383246,
+        knownStates: 35673,
+        pulledStates: 23305,
+        startingBlock: 0
+      }
+    > eth.getBlock(183)
+      {
+        difficulty: 2,
+        extraData: "0xd783010600846765746887676f312e372e33856c696e75780000000000000000a445253076a272b7174b57861029c65c8db9c8c68afac4bf6b770110d50b22553b0e97067bc18df04d81b2e5b32a3fb9edc8be988417a874767f789ba1e5838700",
+        gasLimit: 4712388,
+        gasUsed: 0,
+        hash: "0x377ff4ff28fff58fee51ed5dd199084c7bb078e7df0b02ee64ddaf6d07038831",
+        logsBloom: "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        miner: "0x0000000000000000000000000000000000000000",
+        mixHash: "0x0000000000000000000000000000000000000000000000000000000000000000",
+        nonce: "0x0000000000000000",
+        number: 183,
+        parentHash: "0x913c6389389f118d37d0a846c37e3eaf3ea114819202078807b5bcfe01b39165",
+        receiptsRoot: "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+        sha3Uncles: "0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347",
+        size: 607,
+        stateRoot: "0x9853b6c62bd454466f4843b73e2f0bdd655a4e754c259d6cc0ad4e580d788f43",
+        timestamp: 1492013189,
+        totalDifficulty: 367,
+        transactions: [],
+        transactionsRoot: "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+        uncles: []
+      }
+
+
+    - On Rinkeby network, miner address is "0x000...000" and the nonce is also zeros. This is because the Rinkeby network does not run POW. It rus proof-of-authority running the Clique consensus protocol. A proof og authority network relies o trusted nodes designed as "signers" that have the ability to create blocks. A majority of signers on the network are required to validate the chain.
+
+    > eth.getStorageAt("0x83a...fE7") - Deployed contract code.
+
+* Proof of Authority:
+  - POA is an easier way to run a blockchain with semi-trusted participants, such as consortium blockchain. 
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+* Solidity Compilation: 
+
+* echo var ballotStorage = `solc --combined-json abi,bin,interface ballot.sol` > ballot.js
+
+geth --networkid 12 --datadir test-private-blockchain console
+  > loadScript('ballot.js')
+  > ballotStorage
+  > var ABI = compiledStorage.contracts["ballot.sol:Ballot"].abi
+  undefined
+  > var bin = "0x" + compiledStorage.contracts["ballot.sol:Ballot"].bin
+  undefined
+  > var deploymentTX = {from: eth.accounts[0], data: bin, gas:1000000000000}
+  undefined
+  > var ballotInterface= eth.cotntract(JSON.parse(ABI))
+  > var ballotInstance = ballotInterface.new(deploymentTx)
+  > var address = eth.getTransactionReceipt(ballotInstance.transactionHash).contractAddress
+  > address
+  > var ballot = ballotInterface.at(address)
+  > ballot.get.call()
+  > ballot.set.sendTransaction(10, {from:eth.accounts[0], gas: 1000000000})
+  > ballot.get.call()
 

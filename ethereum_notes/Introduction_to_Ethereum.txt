@@ -236,11 +236,12 @@ geth --networkid 12 --datadir test-private-blockchain console
   undefined
   > var bin = "0x" + compiledStorage.contracts["ballot.sol:Ballot"].bin
   undefined
-  > var deploymentTX = {from: eth.accounts[0], data: bin, gas:1000000000000}
+  > var deploymentTX = {from: eth.accounts[0], data: bin, gas:100000} // Exceeds block gas limit : Too much gas
   undefined
   > var ballotInterface= eth.cotntract(JSON.parse(ABI))
   > var ballotInstance = ballotInterface.new(deploymentTx)
   > var address = eth.getTransactionReceipt(ballotInstance.transactionHash).contractAddress
+  // If the contract creation succeeds, then (and only then) will there be a value in the contractAddress field of the transaction's receipt. That value will be the address of the newly created contract. Subsequent calls to that contract's address will always have 'null' in the contractAddress field of a receipt.
   > address
   > var ballot = ballotInterface.at(address)
   > ballot.get.call()

@@ -1,0 +1,98 @@
+* Features of Solidity - Data Types and Variables
+  > Statically typed: => Type of each variable(state and local) needs to be specified at compile time.
+  > Compiled language
+  > Elementary Types:
+    - Boolean : 
+      -- True/False
+      -- Logical negation(!), Logical conjuction(&&), Logical disjunction(||), equality(==) and inequality(!=)
+      -- Adding the public attribute, 'bool public <Var_Name>, will automatically create a getter function to retrive the variables value.
+      -- All types initialize to 0; unassigned bolleans default to false.
+      -- Short circuit rules => e.g. f(x) || g(x). if f(x) evaluates True, g(y) will not be evaluated.
+
+    - Integer: int or uint (8 to 256 bits). uint8 to uint256. only uint = uint256. Default will be initialized to 0.
+    
+    - address: 20 byte value with member functions
+    - address payable: same as address, but with additional members transfer and send.
+      > address.balance: Queries the balance 
+      > address.transfer: transfers Ether (in units of wei) to the address
+      > address.send: A low-level counterpart to transfer. Use transfer intsead of send. 
+      > address.call: Call another contract. If true, terminates successfully. False if an exception was encountered. Use .gas() or .value()
+      > address.callcode: use delegatecall() instead.
+      > address.delegatecall: delegates a function to the specified address, maintaining all aspects of the calling address.
+    - Implicit conversion from address payable to address are allowed. But conversions from address to address payable are not possible.
+
+    - Byte Array: Arrays of bytes. Defined with byte followed by a number between 1 and 32. Much cheaper than dynamic arrays.
+      -- E.g. byte[4] Var_name
+      -- .length: returns length of the of the byte array 
+    
+    - enums: User defined code. // Read it on solidity documentation.
+
+  > Complex Types:
+    - Arrays: 
+      -- Defined as T[k] for fixed size of legth k
+      -- T[] for dynamic
+      -- Can be allocated to storage or memory
+        + Storage arrays can be any data type
+        + Memory arrays can be anything by a mapping
+      -- Declaring the variable public will create a getter function that requires the index of the desired value as a parameter.
+      -- Members:
+        + .length() : Dynamic arrays in storage can be resized by assigning the length
+        + . push()  : Dynamic storage arrays and bytes(not string) have .push() that appends a value to the array -- The new length is returned.
+
+      -- Memory array caanot be resized on the fly. Creating arrays of varable length in memory requires using the new keyword
+        + uint[] memory a = new uint[] (<variable length>);
+        + Once the array is defined, it is of fixed size, but the variable length can be determined at runtime.
+
+    - Structs:
+      -- Structures in C. Cannot contain a member of its own type.
+      -- Struct values stored as local variable in functions are not copied, they are passed by reference.
+
+  > Mapping
+    - Declared by mapping(_KeyType => _ValueType)
+    - _KeyType can be any type but mapping.
+    - _ValueType can be any type.
+    - no concept of length in mapping.
+    - key data is not stored in the mapping, rather its keccak256 hash.
+
+  > Function Types:
+    - Internal(Default): Can only be called from within the current contract
+    - External: Can be called with a transaction from any account/Contract
+
+  > Global Variable:
+    - msg.data(bytes) : complete calldata
+    - msg.gas(unit) : remaining gas
+    - msg.sender(address) : sender of the message(current call)
+    - msg.sig(bytes4) : first four bytes of the calldata (i.e. fuction idenifier)
+    - msg.value(uint) : number of wei sent wih the message 
+    - now : current block timestamp (alias for block.timestamp)
+    - tx.gasprice (uint): gas price of the transaction
+    - tx.origin (address): sender of the transaction (full call chain)
+    - block.blockhash(uint blockNumber) return (bytes32): Hash of the given block - only works for 256 most recent blocks excluding current
+    - block.coinbase (address): current block miner's address
+    - block.difficulty (uint): current block difficulty
+    - block.number (uint): current block number
+    - block.timestamp (uint): curent block timestamp as seconds since unix epoch
+      
+  > Function Types are defined with the following components:
+
+      function <function name> (<parameters>)
+        [pure | constant | view | payable]
+        [internal | external | public | private]
+        [modifiers]
+        [return(<return types>)]
+      {
+          body
+
+      }
+
+    - Public: No restrictions
+    - external: Only accessible from outside the contract (unless you use this)
+    - Private:  Only be accessed from within the contract
+    - internal: Only within the contract, and or any function in contract from the contract
+    
+    - If the function returns a value, it must be declared in the function signature.
+    - Can specify just the ype or type and name. Specifying he type and the name does not require a return statement in the function body.
+    - can return multiple values.
+
+    - constant = view. -> The function does not modify the state.
+    - pure functions do not read or midify the state
